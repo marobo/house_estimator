@@ -21,7 +21,7 @@ class RoomCreateView(CreateView):
     model = Room
     form_class = RoomForm
     template_name = 'materiais/room_form.html'
-    success_url = reverse_lazy('room_list')
+    success_url = reverse_lazy('materiais:room_list')
 
 class TileListView(ListView):
     model = Tile
@@ -38,7 +38,7 @@ class TileCalculationCreateView(CreateView):
     model = TileCalculation
     form_class = TileCalculationForm
     template_name = 'materiais/tile_calculation_form.html'
-    success_url = reverse_lazy('tile_calculation_list')
+    success_url = reverse_lazy('materiais:tile_calculation_list')
 
 class PlywoodListView(ListView):
     model = Plywood
@@ -49,13 +49,13 @@ class PlywoodCreateView(CreateView):
     model = Plywood
     form_class = PlywoodForm
     template_name = 'materiais/plywood_form.html'
-    success_url = reverse_lazy('plywood_list')
+    success_url = reverse_lazy('materiais:plywood_list')
 
 class PlywoodCalculationCreateView(CreateView):
     model = PlywoodCalculation
     form_class = PlywoodCalculationForm
     template_name = 'materiais/plywood_calculation_form.html'
-    success_url = reverse_lazy('plywood_calculation_list')
+    success_url = reverse_lazy('materiais:plywood_calculation_list')
 
 class ElectricComponentListView(ListView):
     model = ElectricComponent
@@ -66,13 +66,13 @@ class ElectricComponentCreateView(CreateView):
     model = ElectricComponent
     form_class = ElectricComponentForm
     template_name = 'materiais/electric_component_form.html'
-    success_url = reverse_lazy('electric_component_list')
+    success_url = reverse_lazy('materiais:electric_component_list')
 
 class ElectricalCalculationCreateView(CreateView):
     model = ElectricalCalculation
     form_class = ElectricalCalculationForm
     template_name = 'materiais/electrical_calculation_form.html'
-    success_url = reverse_lazy('electrical_calculation_list')
+    success_url = reverse_lazy('materiais:electrical_calculation_list')
 
 def home(request):
     return render(request, 'materiais/home.html') 
