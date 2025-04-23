@@ -10,9 +10,16 @@
                 <h2 class="mb-0">{% if form.instance.pk %}Edit{% else %}Create{% endif %} Electrical Component</h2>
             </div>
             <div class="card-body">
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <form method="post">
                     {% csrf_token %}
-                    
                     <div class="mb-3">
                         <label for="{{ form.name.id_for_label }}" class="form-label">Component Name</label>
                         {{ form.name }}
@@ -22,7 +29,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="{{ form.unit_price.id_for_label }}" class="form-label">Unit Price ($)</label>
                         {{ form.unit_price }}
@@ -42,7 +49,27 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
+                    <div class="mb-3">
+                        <label for="{{ form.component_type.id_for_label }}" class="form-label">Component Type</label>
+                        {{ form.component_type }}
+                        {% if form.component_type.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.component_type.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.default_quantity.id_for_label }}" class="form-label">Default Quantity</label>
+                        {{ form.default_quantity }}
+                        {% if form.default_quantity.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.default_quantity.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Save</button>
                         <a href="{% url 'materiais:electric_component_list' %}" class="btn btn-secondary">Cancel</a>

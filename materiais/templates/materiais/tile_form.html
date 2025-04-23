@@ -10,9 +10,17 @@
                 <h2 class="mb-0">{% if form.instance.pk %}Edit{% else %}Create{% endif %} Tile</h2>
             </div>
             <div class="card-body">
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <form method="post">
                     {% csrf_token %}
-                    
+
                     <div class="mb-3">
                         <label for="{{ form.name.id_for_label }}" class="form-label">Tile Name</label>
                         {{ form.name }}
@@ -22,7 +30,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="{{ form.length.id_for_label }}" class="form-label">Length (centimeters)</label>
                         {{ form.length }}
@@ -32,7 +40,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="{{ form.width.id_for_label }}" class="form-label">Width (centimeters)</label>
                         {{ form.width }}
@@ -42,7 +50,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="{{ form.pieces_per_box.id_for_label }}" class="form-label">Pieces per Box</label>
                         {{ form.pieces_per_box }}
@@ -52,7 +60,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="{{ form.price_per_box.id_for_label }}" class="form-label">Price per Box ($)</label>
                         {{ form.price_per_box }}
@@ -62,7 +70,17 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
+                    <div class="mb-3">
+                        <label for="{{ form.waste_percentage.id_for_label }}" class="form-label">Waste Percentage (%)</label>
+                        {{ form.waste_percentage }}
+                        {% if form.waste_percentage.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.waste_percentage.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Save</button>
                         <a href="{% url 'materiais:tile_list' %}" class="btn btn-secondary">Cancel</a>

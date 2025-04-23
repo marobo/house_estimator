@@ -32,7 +32,7 @@ class TileCreateView(CreateView):
     model = Tile
     form_class = TileForm
     template_name = 'materiais/tile_form.html'
-    success_url = reverse_lazy('tile_list')
+    success_url = reverse_lazy('materiais:tile_list')
 
 class TileCalculationCreateView(CreateView):
     model = TileCalculation
