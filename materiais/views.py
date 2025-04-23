@@ -90,4 +90,4 @@ class ElectricalCalculationCreateView(CreateView):
 
 
 def home(request):
-    return render(request, 'materiais/home.html') 
+    return render(request, 'materiais/home.html')

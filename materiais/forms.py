@@ -150,4 +150,4 @@ class ElectricalCalculationForm(forms.ModelForm):
             room_quantity = int(self.data.get('room_quantity', 1))
             result = component.calculate_requirements(room_length, room_width, room_quantity)
             self.initial['quantity'] = result['quantity']
-            self.initial['total_cost'] = result['total_cost'] 
+            self.initial['total_cost'] = result['total_cost']
