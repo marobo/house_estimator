@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Plywood - House Estimator{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Plywood</h1>
+    <a href="{% url 'materiais:plywood_create' %}" class="btn btn-primary">Add New Plywood</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size (m)</th>
+                <th>Area (m²)</th>
+                <th>Price per Sheet</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plywood in plywoods %}
+            <tr>
+                <td>{{ plywood.name }}</td>
+                <td>{{ plywood.length }}x{{ plywood.width }}</td>
+                <td>{{ plywood.area }}</td>
+                <td>${{ plywood.price_per_sheet }}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-info">View</a>
+                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No plywood found. Add your first plywood!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4">
+    <h2>Plywood Calculations</h2>
+    <a href="{% url 'materiais:plywood_calculation_create' %}" class="btn btn-success">Calculate Plywood Requirements</a>
+</div>
+{% endblock %} 

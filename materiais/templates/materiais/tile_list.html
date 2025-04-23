@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Tiles - House Estimator{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Tiles</h1>
+    <a href="{% url 'materiais:tile_create' %}" class="btn btn-primary">Add New Tile</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size (cm)</th>
+                <th>Pieces per Box</th>
+                <th>Price per Box</th>
+                <th>Area per Piece (m²)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tile in tiles %}
+            <tr>
+                <td>{{ tile.name }}</td>
+                <td>{{ tile.length }}x{{ tile.width }}</td>
+                <td>{{ tile.pieces_per_box }}</td>
+                <td>${{ tile.price_per_box }}</td>
+                <td>{{ tile.area_per_piece|floatformat:4 }}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-info">View</a>
+                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No tiles found. Add your first tile!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4">
+    <h2>Tile Calculations</h2>
+    <a href="{% url 'materiais:tile_calculation_create' %}" class="btn btn-success">Calculate Tile Requirements</a>
+</div>
+{% endblock %} 
