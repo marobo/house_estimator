@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Plywood Calculations - House Estimator{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Plywood Calculations</h1>
+    <a href="{% url 'materiais:plywood_calculation_create' %}" class="btn btn-primary">New Calculation</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Plywood</th>
+                <th>Room Dimensions</th>
+                <th>Room Quantity</th>
+                <th>Total Sheets</th>
+                <th>Total Cost</th>
+                <th>Waste %</th>
+                <th>Calculation Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for calculation in calculations %}
+            <tr>
+                <td>{{ calculation.plywood.name }}</td>
+                <td>{{ calculation.room_length }}x{{ calculation.room_width }}m</td>
+                <td>{{ calculation.room_quantity }}</td>
+                <td>{{ calculation.total_sheets }}</td>
+                <td>${{ calculation.total_cost }}</td>
+                <td>{{ calculation.waste_percentage }}%</td>
+                <td>{{ calculation.calculation_date|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-info">View</a>
+                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">No calculations found. Create your first calculation!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'materiais:plywood_list' %}" class="btn btn-secondary">Back to Plywood</a>
+</div>
+{% endblock %} 

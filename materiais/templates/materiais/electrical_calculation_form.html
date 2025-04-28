@@ -10,15 +10,43 @@
                 <h2 class="mb-0">Calculate Electrical Requirements</h2>
             </div>
             <div class="card-body">
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <form method="post">
                     {% csrf_token %}
                     
                     <div class="mb-3">
-                        <label for="{{ form.room.id_for_label }}" class="form-label">Room</label>
-                        {{ form.room }}
-                        {% if form.room.errors %}
+                        <label for="{{ form.room_length.id_for_label }}" class="form-label">Room Length (meters)</label>
+                        {{ form.room_length }}
+                        {% if form.room_length.errors %}
                         <div class="invalid-feedback d-block">
-                            {{ form.room.errors }}
+                            {{ form.room_length.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.room_width.id_for_label }}" class="form-label">Room Width (meters)</label>
+                        {{ form.room_width }}
+                        {% if form.room_width.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.room_width.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.room_quantity.id_for_label }}" class="form-label">Room Quantity</label>
+                        {{ form.room_quantity }}
+                        {% if form.room_quantity.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.room_quantity.errors }}
                         </div>
                         {% endif %}
                     </div>
