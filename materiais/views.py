@@ -24,6 +24,19 @@ class TileCreateView(CreateView):
     success_url = reverse_lazy('materiais:tile_list')
 
 
+class TileUpdateView(UpdateView):
+    model = Tile
+    form_class = TileForm
+    template_name = 'materiais/tile_form.html'
+    success_url = reverse_lazy('materiais:tile_list')
+
+
+class TileDeleteView(DeleteView):
+    model = Tile
+    template_name = 'materiais/tile_confirm_delete.html'
+    success_url = reverse_lazy('materiais:tile_list')
+
+
 class TileCalculationListView(ListView):
     model = TileCalculation
     template_name = 'materiais/tile_calculation_list.html'
@@ -100,19 +113,6 @@ class ElectricalCalculationCreateView(CreateView):
     form_class = ElectricalCalculationForm
     template_name = 'materiais/electrical_calculation_form.html'
     success_url = reverse_lazy('materiais:electrical_calculation_list')
-
-
-class TileUpdateView(UpdateView):
-    model = Tile
-    form_class = TileForm
-    template_name = 'materiais/tile_form.html'
-    success_url = reverse_lazy('materiais:tile_list')
-
-
-class TileDeleteView(DeleteView):
-    model = Tile
-    template_name = 'materiais/tile_confirm_delete.html'
-    success_url = reverse_lazy('materiais:tile_list')
 
 
 def home(request):
