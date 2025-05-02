@@ -22,6 +22,16 @@
                     {% csrf_token %}
 
                     <div class="mb-3">
+                        <label for="{{ form.tile.id_for_label }}" class="form-label">Tile Type</label>
+                        {{ form.tile }}
+                        {% if form.tile.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.tile.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
                         <label for="{{ form.room_length.id_for_label }}" class="form-label">Room Length (meters)</label>
                         {{ form.room_length }}
                         {% if form.room_length.errors %}
@@ -52,16 +62,6 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="{{ form.tile.id_for_label }}" class="form-label">Tile Type</label>
-                        {{ form.tile }}
-                        {% if form.tile.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.tile.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="mb-3">
                         <label for="{{ form.waste_percentage.id_for_label }}" class="form-label">Waste Percentage (%)</label>
                         {{ form.waste_percentage }}
                         {% if form.waste_percentage.errors %}
@@ -71,39 +71,9 @@
                         {% endif %}
                     </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.total_boxes.id_for_label }}" class="form-label">Total Boxes Required</label>
-                        {{ form.total_boxes }}
-                        {% if form.total_boxes.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.total_boxes.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="{{ form.total_pieces.id_for_label }}" class="form-label">Total Pieces Required</label>
-                        {{ form.total_pieces }}
-                        {% if form.total_pieces.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.total_pieces.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="{{ form.total_cost.id_for_label }}" class="form-label">Total Cost ($)</label>
-                        {{ form.total_cost }}
-                        {% if form.total_cost.errors %}
-                        <div class="invalid-feedback d-block">
-                            {{ form.total_cost.errors }}
-                        </div>
-                        {% endif %}
-                    </div>
-
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Calculate</button>
-                        <a href="{% url 'materiais:tile_list' %}" class="btn btn-secondary">Cancel</a>
+                        <a href="{% url 'materiais:tile_calculation_list' %}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>
