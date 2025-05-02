@@ -30,8 +30,8 @@
                 <td>{{ tile.area_per_piece|floatformat:4 }}</td>
                 <td>
                     <a href="#" class="btn btn-sm btn-info">View</a>
-                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    <a href="{% url 'materiais:tile_edit' tile.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'materiais:tile_delete' tile.pk %}" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
             {% empty %}

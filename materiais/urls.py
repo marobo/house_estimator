@@ -9,8 +9,12 @@ urlpatterns = [
     # Tile URLs
     path('tiles/', views.TileListView.as_view(), name='tile_list'),
     path('tiles/create/', views.TileCreateView.as_view(), name='tile_create'),
+    path('tiles/<int:pk>/edit/', views.TileUpdateView.as_view(), name='tile_edit'),
+    path('tiles/<int:pk>/delete/', views.TileDeleteView.as_view(), name='tile_delete'),
     path('tile-calculations/', views.TileCalculationListView.as_view(), name='tile_calculation_list'),
     path('tile-calculations/create/', views.TileCalculationCreateView.as_view(), name='tile_calculation_create'),
+    path('tile-calculations/<int:pk>/edit/', views.TileCalculationUpdateView.as_view(), name='tile_calculation_edit'),
+    path('tile-calculations/<int:pk>/delete/', views.TileCalculationDeleteView.as_view(), name='tile_calculation_delete'),
 
     # Plywood URLs
     path('plywoods/', views.PlywoodListView.as_view(), name='plywood_list'),

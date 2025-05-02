@@ -36,8 +36,8 @@
                 <td>{{ calculation.calculation_date|date:"Y-m-d H:i" }}</td>
                 <td>
                     <a href="#" class="btn btn-sm btn-info">View</a>
-                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    <a href="{% url 'materiais:tile_calculation_edit' calculation.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'materiais:tile_calculation_delete' calculation.pk %}" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
             {% empty %}

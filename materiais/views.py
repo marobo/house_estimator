@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import (
     Tile, TileCalculation, Plywood, PlywoodCalculation,
@@ -34,6 +34,19 @@ class TileCalculationCreateView(CreateView):
     model = TileCalculation
     form_class = TileCalculationForm
     template_name = 'materiais/tile_calculation_form.html'
+    success_url = reverse_lazy('materiais:tile_calculation_list')
+
+
+class TileCalculationUpdateView(UpdateView):
+    model = TileCalculation
+    form_class = TileCalculationForm
+    template_name = 'materiais/tile_calculation_form.html'
+    success_url = reverse_lazy('materiais:tile_calculation_list')
+
+
+class TileCalculationDeleteView(DeleteView):
+    model = TileCalculation
+    template_name = 'materiais/tile_calculation_confirm_delete.html'
     success_url = reverse_lazy('materiais:tile_calculation_list')
 
 
@@ -87,6 +100,19 @@ class ElectricalCalculationCreateView(CreateView):
     form_class = ElectricalCalculationForm
     template_name = 'materiais/electrical_calculation_form.html'
     success_url = reverse_lazy('materiais:electrical_calculation_list')
+
+
+class TileUpdateView(UpdateView):
+    model = Tile
+    form_class = TileForm
+    template_name = 'materiais/tile_form.html'
+    success_url = reverse_lazy('materiais:tile_list')
+
+
+class TileDeleteView(DeleteView):
+    model = Tile
+    template_name = 'materiais/tile_confirm_delete.html'
+    success_url = reverse_lazy('materiais:tile_list')
 
 
 def home(request):
