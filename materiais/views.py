@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .models import (
     Tile, TileCalculation, Plywood, PlywoodCalculation,
@@ -37,6 +37,12 @@ class TileDeleteView(DeleteView):
     success_url = reverse_lazy('materiais:tile_list')
 
 
+class TileDetailView(DetailView):
+    model = Tile
+    template_name = 'materiais/tile_detail.html'
+    context_object_name = 'tile'
+
+
 class TileCalculationListView(ListView):
     model = TileCalculation
     template_name = 'materiais/tile_calculation_list.html'
@@ -62,6 +68,12 @@ class TileCalculationDeleteView(DeleteView):
     model = TileCalculation
     template_name = 'materiais/tile_calculation_confirm_delete.html'
     success_url = reverse_lazy('materiais:tile_calculation_list')
+
+
+class TileCalculationDetailView(DetailView):
+    model = TileCalculation
+    template_name = 'materiais/tile_calculation_detail.html'
+    context_object_name = 'calculation'
 
 
 class PlywoodListView(ListView):
@@ -90,6 +102,12 @@ class PlywoodDeleteView(DeleteView):
     success_url = reverse_lazy('materiais:plywood_list')
 
 
+class PlywoodDetailView(DetailView):
+    model = Plywood
+    template_name = 'materiais/plywood_detail.html'
+    context_object_name = 'plywood'
+
+
 class PlywoodCalculationListView(ListView):
     model = PlywoodCalculation
     template_name = 'materiais/plywood_calculation_list.html'
@@ -115,6 +133,12 @@ class PlywoodCalculationDeleteView(DeleteView):
     model = PlywoodCalculation
     template_name = 'materiais/plywood_calculation_confirm_delete.html'
     success_url = reverse_lazy('materiais:plywood_calculation_list')
+
+
+class PlywoodCalculationDetailView(DetailView):
+    model = PlywoodCalculation
+    template_name = 'materiais/plywood_calculation_detail.html'
+    context_object_name = 'calculation'
 
 
 class ElectricComponentListView(ListView):
