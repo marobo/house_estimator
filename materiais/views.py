@@ -41,6 +41,7 @@ class TileCalculationListView(ListView):
     model = TileCalculation
     template_name = 'materiais/tile_calculation_list.html'
     context_object_name = 'calculations'
+    ordering = ['-calculation_date']
 
 
 class TileCalculationCreateView(CreateView):

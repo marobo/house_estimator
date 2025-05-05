@@ -20,14 +20,14 @@ class Tile(models.Model):
 
     @property
     def area_per_piece(self):
-        return (self.length * self.width) / 10000  # Convert to square meters
+        return (self.length * self.width) / 10000  # Convert to square meters (1 m2=(100 cm)×(100 cm)=10,000 cm2)
 
     def calculate_requirements(self, room_length, room_width, room_quantity=1, waste_percentage=None):
         room_area = room_length * room_width * room_quantity
         tile_area = self.area_per_piece
         waste_percentage = waste_percentage if waste_percentage is not None else self.waste_percentage
-        total_pieces = math.ceil(room_area / tile_area * (1 + waste_percentage / 100))
-        total_boxes = math.ceil(total_pieces / self.pieces_per_box)
+        total_pieces = math.ceil(room_area / tile_area * (1 + waste_percentage / 100))  # math.ceil() rounds up to the nearest integer
+        total_boxes = math.ceil(total_pieces / self.pieces_per_box)  # math.ceil() rounds up to the nearest integer
         total_cost = total_boxes * self.price_per_box
         return {
             'total_pieces': total_pieces,
