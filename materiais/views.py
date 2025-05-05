@@ -81,6 +81,7 @@ class PlywoodCalculationListView(ListView):
     model = PlywoodCalculation
     template_name = 'materiais/plywood_calculation_list.html'
     context_object_name = 'calculations'
+    ordering = ['-calculation_date']
 
 
 class PlywoodCalculationCreateView(CreateView):

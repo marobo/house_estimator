@@ -65,13 +65,14 @@ class Plywood(models.Model):
         return f"{self.name} ({self.length}x{self.width}m)"
 
     @property
-    def area(self):
-        return self.length * self.width
+    def area_per_sheet(self):
+        return self.length * self.width  # Area in square meters
 
-    def calculate_requirements(self, room_length, room_width, room_quantity=1):
+    def calculate_requirements(self, room_length, room_width, room_quantity=1, waste_percentage=None):
         room_area = room_length * room_width * room_quantity
-        plywood_area = self.area
-        total_sheets = math.ceil(room_area / plywood_area * (1 + self.waste_percentage / 100))
+        plywood_area = self.area_per_sheet
+        waste_percentage = waste_percentage if waste_percentage is not None else self.waste_percentage
+        total_sheets = math.ceil(room_area / plywood_area * (1 + waste_percentage / 100))
         total_cost = total_sheets * self.price_per_sheet
         return {
             'total_sheets': total_sheets,
@@ -86,7 +87,10 @@ class PlywoodCalculation(models.Model):
     room_quantity = models.IntegerField(default=1)
     total_sheets = models.IntegerField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    waste_percentage = models.FloatField()
+    waste_percentage = models.FloatField(
+        help_text="Waste percentage for cutting and breakage (0-100%)",
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
     calculation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
