@@ -33,9 +33,9 @@
                 <td>{{ calculation.waste_percentage }}%</td>
                 <td>{{ calculation.calculation_date|date:"Y-m-d H:i" }}</td>
                 <td>
-                    <a href="{% url 'materiais:plywood_calculation_detail' calculation.pk %}" class="btn btn-sm btn-info">View</a>
-                    <a href="{% url 'materiais:plywood_calculation_edit' calculation.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="{% url 'materiais:plywood_calculation_delete' calculation.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    <a href="{% url 'materiais:plywood_calculation_detail' calculation.pk %}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</a>
+                    <a href="{% url 'materiais:plywood_calculation_edit' calculation.pk %}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                    <a href="{% url 'materiais:plywood_calculation_delete' calculation.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
                 </td>
             </tr>
             {% empty %}
