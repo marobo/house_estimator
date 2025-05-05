@@ -77,6 +77,19 @@ class PlywoodCreateView(CreateView):
     success_url = reverse_lazy('materiais:plywood_list')
 
 
+class PlywoodUpdateView(UpdateView):
+    model = Plywood
+    form_class = PlywoodForm
+    template_name = 'materiais/plywood_form.html'
+    success_url = reverse_lazy('materiais:plywood_list')
+
+
+class PlywoodDeleteView(DeleteView):
+    model = Plywood
+    template_name = 'materiais/plywood_confirm_delete.html'
+    success_url = reverse_lazy('materiais:plywood_list')
+
+
 class PlywoodCalculationListView(ListView):
     model = PlywoodCalculation
     template_name = 'materiais/plywood_calculation_list.html'
@@ -88,6 +101,19 @@ class PlywoodCalculationCreateView(CreateView):
     model = PlywoodCalculation
     form_class = PlywoodCalculationForm
     template_name = 'materiais/plywood_calculation_form.html'
+    success_url = reverse_lazy('materiais:plywood_calculation_list')
+
+
+class PlywoodCalculationUpdateView(UpdateView):
+    model = PlywoodCalculation
+    form_class = PlywoodCalculationForm
+    template_name = 'materiais/plywood_calculation_form.html'
+    success_url = reverse_lazy('materiais:plywood_calculation_list')
+
+
+class PlywoodCalculationDeleteView(DeleteView):
+    model = PlywoodCalculation
+    template_name = 'materiais/plywood_calculation_confirm_delete.html'
     success_url = reverse_lazy('materiais:plywood_calculation_list')
 
 

@@ -19,8 +19,12 @@ urlpatterns = [
     # Plywood URLs
     path('plywoods/', views.PlywoodListView.as_view(), name='plywood_list'),
     path('plywoods/create/', views.PlywoodCreateView.as_view(), name='plywood_create'),
+    path('plywoods/<int:pk>/edit/', views.PlywoodUpdateView.as_view(), name='plywood_edit'),
+    path('plywoods/<int:pk>/delete/', views.PlywoodDeleteView.as_view(), name='plywood_delete'),
     path('plywood-calculations/', views.PlywoodCalculationListView.as_view(), name='plywood_calculation_list'),
     path('plywood-calculations/create/', views.PlywoodCalculationCreateView.as_view(), name='plywood_calculation_create'),
+    path('plywood-calculations/<int:pk>/edit/', views.PlywoodCalculationUpdateView.as_view(), name='plywood_calculation_edit'),
+    path('plywood-calculations/<int:pk>/delete/', views.PlywoodCalculationDeleteView.as_view(), name='plywood_calculation_delete'),
 
     # Electrical URLs
     path('electric-components/', views.ElectricComponentListView.as_view(), name='electric_component_list'),

@@ -28,8 +28,8 @@
                 <td>${{ plywood.price_per_sheet }}</td>
                 <td>
                     <a href="#" class="btn btn-sm btn-info">View</a>
-                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    <a href="{% url 'materiais:plywood_edit' plywood.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'materiais:plywood_delete' plywood.pk %}" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
             {% empty %}
