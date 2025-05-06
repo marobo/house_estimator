@@ -18,6 +18,8 @@
                     <p>Are you sure you want to delete this calculation?</p>
                 {% elif object.electrical_component %}
                     <p>Are you sure you want to delete this calculation?</p>
+                {% elif object.component %}
+                    <p>Are you sure you want to delete this calculation?</p>
                 {% endif %}
                 {% if object %}
                     <ul>
@@ -32,6 +34,9 @@
                         {% endif %}
                         {% if object.electrical_component %}
                             <li><strong>Name:</strong> {{ object.electrical_component.name }}</li>
+                        {% endif %}
+                        {% if object.component %}
+                            <li><strong>Name:</strong> {{ object.component.name }}</li>
                         {% endif %}
                         {% if object.room_length and object.room_width %}
                             <li><strong>Room Size:</strong> {{ object.room_length }}x{{ object.room_width }}m</li>

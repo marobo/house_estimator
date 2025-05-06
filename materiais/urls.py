@@ -33,6 +33,12 @@ urlpatterns = [
     # Electrical URLs
     path('electric-components/', views.ElectricComponentListView.as_view(), name='electric_component_list'),
     path('electric-components/create/', views.ElectricComponentCreateView.as_view(), name='electric_component_create'),
+    path('electric-components/<int:pk>/', views.ElectricComponentDetailView.as_view(), name='electric_component_detail'),
+    path('electric-components/<int:pk>/edit/', views.ElectricComponentUpdateView.as_view(), name='electric_component_edit'),
+    path('electric-components/<int:pk>/delete/', views.ElectricComponentDeleteView.as_view(), name='electric_component_delete'),
     path('electrical-calculations/', views.ElectricalCalculationListView.as_view(), name='electrical_calculation_list'),
     path('electrical-calculations/create/', views.ElectricalCalculationCreateView.as_view(), name='electrical_calculation_create'),
+    path('electrical-calculations/<int:pk>/', views.ElectricalCalculationDetailView.as_view(), name='electrical_calculation_detail'),
+    path('electrical-calculations/<int:pk>/edit/', views.ElectricalCalculationUpdateView.as_view(), name='electrical_calculation_edit'),
+    path('electrical-calculations/<int:pk>/delete/', views.ElectricalCalculationDeleteView.as_view(), name='electrical_calculation_delete'),
 ]
