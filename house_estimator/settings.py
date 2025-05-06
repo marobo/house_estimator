@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-your-secret-key-here'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['housestimator.pythonanywhere.com']
+ALLOWED_HOSTS = ['housestimator.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

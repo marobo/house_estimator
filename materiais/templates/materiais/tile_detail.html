@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Tile Detail - House Estimator{% endblock %}
+{% block title %}Tile or PVC Detail - House Estimator{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <div class="card">
             <div class="card-header">
-                <h2 class="mb-0">Tile Detail</h2>
+                <h2 class="mb-0">Tile or PVC Detail</h2>
             </div>
             <div class="card-body">
                 <ul>
@@ -18,7 +18,7 @@
                     <li><strong>Price per Box:</strong> ${{ tile.price_per_box }}</li>
                     <li><strong>Waste Percentage:</strong> {{ tile.waste_percentage }}%</li>
                 </ul>
-                <a href="{% url 'materiais:tile_list' %}" class="btn btn-secondary">Back to Tiles</a>
+                <a href="{% url 'materiais:tile_list' %}" class="btn btn-secondary">Back</a>
             </div>
         </div>
     </div>

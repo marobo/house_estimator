@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Tile Calculations - House Estimator{% endblock %}
+{% block title %}Tile or PVC Calculations - House Estimator{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Tile Calculations</h1>
+    <h1>Tile or PVC Calculations</h1>
     <a href="{% url 'materiais:tile_calculation_create' %}" class="btn btn-primary">New Calculation</a>
 </div>
 
@@ -50,6 +50,6 @@
 </div>
 
 <div class="mt-4">
-    <a href="{% url 'materiais:tile_list' %}" class="btn btn-secondary">Back to Tiles</a>
+    <a href="{% url 'materiais:tile_list' %}" class="btn btn-secondary">Back</a>
 </div>
 {% endblock %} 
