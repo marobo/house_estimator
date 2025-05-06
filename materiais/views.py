@@ -33,8 +33,9 @@ class TileUpdateView(UpdateView):
 
 class TileDeleteView(DeleteView):
     model = Tile
-    template_name = 'materiais/tile_confirm_delete.html'
+    template_name = 'materiais/confirm_delete.html'
     success_url = reverse_lazy('materiais:tile_list')
+    context_object_name = 'object'
 
 
 class TileDetailView(DetailView):
@@ -66,8 +67,9 @@ class TileCalculationUpdateView(UpdateView):
 
 class TileCalculationDeleteView(DeleteView):
     model = TileCalculation
-    template_name = 'materiais/tile_calculation_confirm_delete.html'
+    template_name = 'materiais/confirm_delete.html'
     success_url = reverse_lazy('materiais:tile_calculation_list')
+    context_object_name = 'object'
 
 
 class TileCalculationDetailView(DetailView):
@@ -98,8 +100,9 @@ class PlywoodUpdateView(UpdateView):
 
 class PlywoodDeleteView(DeleteView):
     model = Plywood
-    template_name = 'materiais/plywood_confirm_delete.html'
+    template_name = 'materiais/confirm_delete.html'
     success_url = reverse_lazy('materiais:plywood_list')
+    context_object_name = 'object'
 
 
 class PlywoodDetailView(DetailView):
@@ -131,8 +134,9 @@ class PlywoodCalculationUpdateView(UpdateView):
 
 class PlywoodCalculationDeleteView(DeleteView):
     model = PlywoodCalculation
-    template_name = 'materiais/plywood_calculation_confirm_delete.html'
+    template_name = 'materiais/confirm_delete.html'
     success_url = reverse_lazy('materiais:plywood_calculation_list')
+    context_object_name = 'object'
 
 
 class PlywoodCalculationDetailView(DetailView):
