@@ -172,10 +172,14 @@ class ElectricalCalculationForm(forms.ModelForm):
             'room_width': forms.NumberInput(attrs={'class': 'form-control'}),
             'room_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(
-                attrs={'class': 'form-control', 'readonly': 'readonly'}
+                attrs={
+                    'class': 'form-control'
+                }
             ),
             'total_cost': forms.NumberInput(
-                attrs={'class': 'form-control', 'readonly': 'readonly'}
+                attrs={
+                    'class': 'form-control'
+                }
             ),
         }
 
