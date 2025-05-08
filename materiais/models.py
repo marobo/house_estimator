@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 import math
 
 
@@ -11,8 +13,13 @@ class Tile(models.Model):
     price_per_box = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     waste_percentage = models.FloatField(
         default=10,
-        help_text="Waste percentage for cutting and breakage (0-100%)",
-        validators=[MinValueValidator(0), MaxValueValidator(100)]
+        help_text=(
+            "Waste percentage for cutting and breakage (0-100%)"
+        ),
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100)
+        ]
     )
 
     def __str__(self):
@@ -34,24 +41,6 @@ class Tile(models.Model):
             'total_boxes': total_boxes,
             'total_cost': total_cost
         }
-
-
-class TileCalculation(models.Model):
-    tile = models.ForeignKey(Tile, on_delete=models.CASCADE)
-    room_length = models.FloatField(help_text="Room length in meters")
-    room_width = models.FloatField(help_text="Room width in meters")
-    room_quantity = models.IntegerField(default=1)
-    total_boxes = models.FloatField()
-    total_pieces = models.IntegerField()
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    waste_percentage = models.FloatField(
-        help_text="Waste percentage for cutting and breakage (0-100%)",
-        validators=[MinValueValidator(0), MaxValueValidator(100)]
-    )
-    calculation_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.tile.name} - {self.room_length}x{self.room_width}m - {self.calculation_date}"
 
 
 class Plywood(models.Model):
@@ -78,23 +67,6 @@ class Plywood(models.Model):
             'total_sheets': total_sheets,
             'total_cost': total_cost
         }
-
-
-class PlywoodCalculation(models.Model):
-    plywood = models.ForeignKey(Plywood, on_delete=models.CASCADE)
-    room_length = models.FloatField(help_text="Room length in meters")
-    room_width = models.FloatField(help_text="Room width in meters")
-    room_quantity = models.IntegerField(default=1)
-    total_sheets = models.IntegerField()
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    waste_percentage = models.FloatField(
-        help_text="Waste percentage for cutting and breakage (0-100%)",
-        validators=[MinValueValidator(0), MaxValueValidator(100)]
-    )
-    calculation_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Plywood Calculation for {self.plywood.name} ({self.room_length}x{self.room_width}m)"
 
 
 class ElectricComponent(models.Model):
@@ -130,14 +102,25 @@ class ElectricComponent(models.Model):
             }
 
 
-class ElectricalCalculation(models.Model):
-    component = models.ForeignKey(ElectricComponent, on_delete=models.CASCADE)
+class Calculation(models.Model):
+    category = models.CharField(max_length=20, choices=[
+        ('tile', 'Tile'),
+        ('plywood', 'Plywood'),
+        ('electrical', 'Electrical'),
+    ])
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    material = GenericForeignKey('content_type', 'object_id')
+
     room_length = models.FloatField(help_text="Room length in meters")
     room_width = models.FloatField(help_text="Room width in meters")
     room_quantity = models.IntegerField(default=1)
-    quantity = models.FloatField()
+    waste_percentage = models.FloatField(
+        help_text="Waste percentage for cutting and breakage (0-100%)",
+        default=0
+    )
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
     calculation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Electrical Calculation for {self.component.name} ({self.room_length}x{self.room_width}m)"
+        return f"{self.get_category_display()} Calculation for {self.material} ({self.room_length}x{self.room_width}m)"

@@ -12,11 +12,6 @@ urlpatterns = [
     path('tiles/<int:pk>/', views.TileDetailView.as_view(), name='tile_detail'),
     path('tiles/<int:pk>/edit/', views.TileUpdateView.as_view(), name='tile_edit'),
     path('tiles/<int:pk>/delete/', views.TileDeleteView.as_view(), name='tile_delete'),
-    path('tile-calculations/', views.TileCalculationListView.as_view(), name='tile_calculation_list'),
-    path('tile-calculations/create/', views.TileCalculationCreateView.as_view(), name='tile_calculation_create'),
-    path('tile-calculations/<int:pk>/', views.TileCalculationDetailView.as_view(), name='tile_calculation_detail'),
-    path('tile-calculations/<int:pk>/edit/', views.TileCalculationUpdateView.as_view(), name='tile_calculation_edit'),
-    path('tile-calculations/<int:pk>/delete/', views.TileCalculationDeleteView.as_view(), name='tile_calculation_delete'),
 
     # Plywood URLs
     path('plywoods/', views.PlywoodListView.as_view(), name='plywood_list'),
@@ -24,11 +19,6 @@ urlpatterns = [
     path('plywoods/<int:pk>/', views.PlywoodDetailView.as_view(), name='plywood_detail'),
     path('plywoods/<int:pk>/edit/', views.PlywoodUpdateView.as_view(), name='plywood_edit'),
     path('plywoods/<int:pk>/delete/', views.PlywoodDeleteView.as_view(), name='plywood_delete'),
-    path('plywood-calculations/', views.PlywoodCalculationListView.as_view(), name='plywood_calculation_list'),
-    path('plywood-calculations/create/', views.PlywoodCalculationCreateView.as_view(), name='plywood_calculation_create'),
-    path('plywood-calculations/<int:pk>/', views.PlywoodCalculationDetailView.as_view(), name='plywood_calculation_detail'),
-    path('plywood-calculations/<int:pk>/edit/', views.PlywoodCalculationUpdateView.as_view(), name='plywood_calculation_edit'),
-    path('plywood-calculations/<int:pk>/delete/', views.PlywoodCalculationDeleteView.as_view(), name='plywood_calculation_delete'),
 
     # Electrical URLs
     path('electric-components/', views.ElectricComponentListView.as_view(), name='electric_component_list'),
@@ -36,9 +26,13 @@ urlpatterns = [
     path('electric-components/<int:pk>/', views.ElectricComponentDetailView.as_view(), name='electric_component_detail'),
     path('electric-components/<int:pk>/edit/', views.ElectricComponentUpdateView.as_view(), name='electric_component_edit'),
     path('electric-components/<int:pk>/delete/', views.ElectricComponentDeleteView.as_view(), name='electric_component_delete'),
-    path('electrical-calculations/', views.ElectricalCalculationListView.as_view(), name='electrical_calculation_list'),
-    path('electrical-calculations/create/', views.ElectricalCalculationCreateView.as_view(), name='electrical_calculation_create'),
-    path('electrical-calculations/<int:pk>/', views.ElectricalCalculationDetailView.as_view(), name='electrical_calculation_detail'),
-    path('electrical-calculations/<int:pk>/edit/', views.ElectricalCalculationUpdateView.as_view(), name='electrical_calculation_edit'),
-    path('electrical-calculations/<int:pk>/delete/', views.ElectricalCalculationDeleteView.as_view(), name='electrical_calculation_delete'),
+
+    # Calculation URLs
+    path('calculations/', views.CalculationListView.as_view(), name='calculation_list'),
+    path('calculations/create/', views.CalculationCreateView.as_view(), name='calculation_create'),
+    path('calculations/<int:pk>/', views.CalculationDetailView.as_view(), name='calculation_detail'),
+    path('calculations/<int:pk>/edit/', views.CalculationUpdateView.as_view(), name='calculation_update'),
+    path('calculations/<int:pk>/delete/', views.CalculationDeleteView.as_view(), name='calculation_delete'),
+    # AJAX endpoint for dynamic material selection
+    path('ajax/get-materials/', views.get_materials, name='get_materials'),
 ]

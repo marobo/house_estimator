@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Calculate Tile or PVC Requirements - House Estimator{% endblock %}
+{% block title %}Calculation - House Estimator{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <div class="card">
             <div class="card-header">
-                <h2 class="mb-0">Calculate Tile or PVC Requirements</h2>
+                <h2 class="mb-0">Calculation</h2>
             </div>
             <div class="card-body">
                 {% if form.non_field_errors %}
@@ -22,11 +22,21 @@
                     {% csrf_token %}
 
                     <div class="mb-3">
-                        <label for="{{ form.tile.id_for_label }}" class="form-label">Tile or PVC Type</label>
-                        {{ form.tile }}
-                        {% if form.tile.errors %}
+                        <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
                         <div class="invalid-feedback d-block">
-                            {{ form.tile.errors }}
+                            {{ form.category.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.material.id_for_label }}" class="form-label">Material</label>
+                        {{ form.material }}
+                        {% if form.material.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.material.errors }}
                         </div>
                         {% endif %}
                     </div>
@@ -71,13 +81,60 @@
                         {% endif %}
                     </div>
 
+                    <div class="mb-3">
+                        <label for="{{ form.total_cost.id_for_label }}" class="form-label">Total Cost ($)</label>
+                        {{ form.total_cost }}
+                        {% if form.total_cost.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.total_cost.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Calculate</button>
-                        <a href="{% url 'materiais:tile_calculation_list' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="{% url 'materiais:calculation_list' %}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryField = document.getElementById('id_category');
+    const materialField = document.getElementById('id_material');
+    const getMaterialsUrl = "{% url 'materiais:get_materials' %}";
+
+    function updateMaterialOptions(category) {
+        fetch(`${getMaterialsUrl}?category=${category}`)
+            .then(response => response.json())
+            .then(data => {
+                materialField.innerHTML = '';
+                const blankOption = document.createElement('option');
+                blankOption.value = '';
+                blankOption.textContent = '---------';
+                materialField.appendChild(blankOption);
+                data.materials.forEach(function(item) {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.name;
+                    materialField.appendChild(option);
+                });
+            });
+    }
+
+    if (categoryField) {
+        categoryField.addEventListener('change', function() {
+            updateMaterialOptions(this.value);
+        });
+        if (categoryField.value) {
+            updateMaterialOptions(categoryField.value);
+        }
+    }
+});
+</script>
 {% endblock %} 

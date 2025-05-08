@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Calculations - House Estimator{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Calculations</h1>
+    <a href="{% url 'materiais:calculation_create' %}" class="btn btn-primary">New Calculation</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Material</th>
+                <th>Room Dimensions</th>
+                <th>Room Quantity</th>
+                <th>Waste %</th>
+                <th>Total Cost</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for calculation in calculations %}
+            <tr>
+                <td>{{ calculation.get_category_display }}</td>
+                <td>{{ calculation.material }}</td>
+                <td>{{ calculation.room_length }} x {{ calculation.room_width }} m</td>
+                <td>{{ calculation.room_quantity }}</td>
+                <td>{{ calculation.waste_percentage }}%</td>
+                <td>${{ calculation.total_cost }}</td>
+                <td>{{ calculation.calculation_date|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="{% url 'materiais:calculation_detail' calculation.pk %}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</a>
+                    <a href="{% url 'materiais:calculation_update' calculation.pk %}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                    <a href="{% url 'materiais:calculation_delete' calculation.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center">No calculations found. Create your first calculation!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

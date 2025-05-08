@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}Plywood Calculation Detail - House Estimator{% endblock %}
+{% block title %}Calculation Detail - House Estimator{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <div class="card">
             <div class="card-header">
-                <h2 class="mb-0">Plywood Calculation Detail</h2>
+                <h2 class="mb-0">Calculation Detail</h2>
             </div>
             <div class="card-body">
                 <ul>
-                    <li><strong>Plywood:</strong> {{ calculation.plywood.name }}</li>
+                    <li><strong>Category:</strong> {{ calculation.get_category_display }}</li>
+                    <li><strong>Material:</strong> {{ calculation.material }}</li>
                     <li><strong>Room Length:</strong> {{ calculation.room_length }} m</li>
                     <li><strong>Room Width:</strong> {{ calculation.room_width }} m</li>
                     <li><strong>Room Quantity:</strong> {{ calculation.room_quantity }}</li>
-                    <li><strong>Total Sheets:</strong> {{ calculation.total_sheets }}</li>
-                    <li><strong>Total Cost:</strong> ${{ calculation.total_cost }}</li>
                     <li><strong>Waste Percentage:</strong> {{ calculation.waste_percentage }}%</li>
+                    <li><strong>Total Cost:</strong> ${{ calculation.total_cost }}</li>
                     <li><strong>Calculation Date:</strong> {{ calculation.calculation_date|date:"Y-m-d H:i" }}</li>
                 </ul>
-                <a href="{% url 'materiais:plywood_calculation_list' %}" class="btn btn-secondary">Back to Plywood Calculations</a>
+                <a href="{% url 'materiais:calculation_list' %}" class="btn btn-secondary">Back to Calculations</a>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock %} 

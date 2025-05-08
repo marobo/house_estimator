@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - House Estimator{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ title }}</h1>
+    <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="{% url 'materiais:tile_create' %}">
+            <i class="fas fa-plus"></i>
+            New Item
+        </a>
+        <a class="btn btn-success" href="{% url 'materiais:calculation_create' %}">
+            <i class="fas fa-plus"></i>
+            New Calculation
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ name }}</th>
+                {% if title == 'Tile and PVC Calculations' %}
+                    <th>{{ room_dimensions }}</th>
+                    <th>{{ room_quantity }}</th>
+                    <th>{{ total_boxes }}</th>
+                    <th>{{ total_pieces }}</th>
+                    <th>{{ total_cost }}</th>
+                    <th>{{ waste_percentage }}</th>
+                    <th>{{ calculation_date }}</th>
+                {% elif title == 'Plywood' %}
+                    <th>{{ size }}</th>
+                    <th>{{ area_per_sheet }}</th>
+                    <th>{{ price_per_sheet }}</th>
+                {% elif title == 'Plywood Calculations' %}
+                    <th>{{ room_dimensions }}</th>
+                    <th>{{ room_quantity }}</th>
+                    <th>{{ total_sheets }}</th>
+                    <th>{{ total_cost }}</th>
+                    <th>{{ waste_percentage }}</th>
+                    <th>{{ calculation_date }}</th>
+                {% else %}
+                    <th>{{ size }}</th>
+                    <th>{{ pieces_per_box }}</th>
+                    <th>{{ price_per_box }}</th>
+                    <th>{{ area_per_piece }}</th>
+                    <th>{{ waste_percentage }}</th>
+                {% endif %}
+                <th>{{ actions }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in context_objects %}
+            <tr>
+                {% if object.tile.name %}
+                    <td>{{ object.tile.name }}</td>
+                    <td>{{ object.room_length }}x{{ object.room_width }}m</td>
+                    <td>{{ object.room_quantity }}</td>
+                    <td>{{ object.total_boxes }}</td>
+                    <td>{{ object.total_pieces }}</td>
+                    <td>${{ object.total_cost }}</td>
+                    <td>{{ object.waste_percentage }}%</td>
+                    <td>{{ object.calculation_date|date:"Y-m-d H:i" }}</td>
+                {% elif object.plywood.name %}
+                    <td>{{ object.plywood.name }}</td>
+                    <td>{{ object.length }}x{{ object.width }}</td>
+                    <td>{{ object.area_per_sheet|floatformat:4 }}</td>
+                    <td>${{ object.price_per_sheet }}</td>
+                {% elif object.electric_component.name %}
+                    <td>{{ object.electric_component.name }}</td>
+                    <td>{{ object.quantity }}</td>
+                    <td>${{ object.total_cost }}</td>
+                    <td>{{ object.waste_percentage }}%</td>
+                    <td>{{ object.calculation_date|date:"Y-m-d H:i" }}</td>
+                {% else %}
+                    <td>{{ object.name }}</td>
+                    <td>{{ object.length }}x{{ object.width }}</td>
+                    <td>{{ object.pieces_per_box }}</td>
+                    <td>${{ object.price_per_box }}</td>
+                    <td>{{ object.area_per_piece|floatformat:4 }}</td>
+                    <td>{{ object.waste_percentage }}%</td>
+                {% endif %}
+                <td>
+                    {# Remove or update old calculation action links #}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="text-center">No {{ context_objects.0.name }} found. Create your first {{ context_objects.0.name }}!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
