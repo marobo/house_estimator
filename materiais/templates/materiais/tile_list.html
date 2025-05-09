@@ -5,7 +5,16 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Tiles and PVC</h1>
-    <a href="{% url 'materiais:tile_create' %}" class="btn btn-primary">Add New Tile or PVC</a>
+    <div class="d-flex justify-content-end gap-2">
+        <a class="btn btn-success" href="{% url 'materiais:tile_create' %}">
+            <i class="fas fa-plus"></i>
+            Add New Tile or PVC
+        </a>
+        <a class="btn btn-info" href="{% url 'materiais:tile_calculation_list' %}">
+            <i class="fas fa-calculator"></i>
+            View Calculations
+        </a>
+    </div>
 </div>
 
 <div class="table-responsive">
@@ -45,8 +54,4 @@
     </table>
 </div>
 
-<div class="mt-4">
-    <h2>Tile or PVC Calculations</h2>
-    <a href="{% url 'materiais:tile_calculation_create' %}" class="btn btn-success">Calculate Tile or PVC Requirements</a>
-</div>
 {% endblock %} 

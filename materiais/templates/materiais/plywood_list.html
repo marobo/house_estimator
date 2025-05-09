@@ -5,7 +5,16 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Plywood</h1>
-    <a href="{% url 'materiais:plywood_create' %}" class="btn btn-primary">Add New Plywood</a>
+    <div class="d-flex justify-content-end gap-2">
+        <a class="btn btn-success" href="{% url 'materiais:plywood_create' %}">
+            <i class="fas fa-plus"></i>
+            Add New Plywood
+        </a>
+        <a class="btn btn-info" href="{% url 'materiais:plywood_calculation_list' %}">
+            <i class="fas fa-calculator"></i>
+            View Calculations
+        </a>
+    </div>
 </div>
 
 <div class="table-responsive">
@@ -41,8 +50,4 @@
     </table>
 </div>
 
-<div class="mt-4">
-    <h2>Plywood Calculations</h2>
-    <a href="{% url 'materiais:plywood_calculation_create' %}" class="btn btn-success">Calculate Plywood Requirements</a>
-</div>
 {% endblock %} 

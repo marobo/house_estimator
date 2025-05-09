@@ -11,47 +11,48 @@
             </div>
             <div class="card-body">
                 {% if object.name %}
-                    <p>Are you sure you want to delete this item?</p>
-                {% elif object.tile %}
-                    <p>Are you sure you want to delete this calculation?</p>
-                {% elif object.plywood %}
-                    <p>Are you sure you want to delete this calculation?</p>
-                {% elif object.electrical_component %}
-                    <p>Are you sure you want to delete this calculation?</p>
-                {% elif object.component %}
-                    <p>Are you sure you want to delete this calculation?</p>
+                <p>Are you sure you want to delete this material?</p>
+                {% else %}
+                <p>Are you sure you want to delete this calculation? ${{ object.total_cost }}</p>
                 {% endif %}
-                {% if object %}
                     <ul>
                         {% if object.name %}
-                            <li><strong> Name:</strong> {{ object.name }}</li>
+                        <li><strong>Name:</strong> {{ object.name }}</li>
+                        <li><strong>Material Dimension:</strong> {{ object.length }}m x {{ object.width }}m</li>
                         {% endif %}
-                        {% if object.tile %}
-                            <li><strong>Name:</strong> {{ object.tile.name }}</li>
+
+                        {% if object.price_per_box %}
+                        <li><strong>Pieces per box:</strong> {{ object.pieces_per_box }}</li>
+                        <li><strong>Price per box:</strong> ${{ object.price_per_box }}</li>
                         {% endif %}
-                        {% if object.plywood %}
-                            <li><strong>Name:</strong> {{ object.plywood.name }}</li>
+
+                        {% if object.price_per_sheet %}
+                        <li><strong>Price per sheet:</strong> ${{ object.price_per_sheet }}</li>
                         {% endif %}
-                        {% if object.electrical_component %}
-                            <li><strong>Name:</strong> {{ object.electrical_component.name }}</li>
+
+                        {% if object.tile.name %}
+                        <li><strong>Tile or PVC:</strong> {{ object.tile.name }}</li>
+                        <li><strong>Room Dimension:</strong> {{ object.room_length }}m x {{ object.room_width }}m</li>
+                        <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
+                        <li><strong>Total Pieces:</strong> {{ object.total_pieces }}</li>
+                        <li><strong>Total Boxes:</strong> {{ object.total_boxes }}</li>
+                        <li><strong>Waste percentage:</strong> {{ object.tile.waste_percentage }}%</li>
                         {% endif %}
-                        {% if object.component %}
-                            <li><strong>Name:</strong> {{ object.component.name }}</li>
-                        {% endif %}
-                        {% if object.room_length and object.room_width %}
-                            <li><strong>Room Size:</strong> {{ object.room_length }}x{{ object.room_width }}m</li>
-                        {% endif %}
-                        {% if object.room_quantity %}
-                            <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
+
+                        {% if object.plywood.name %}
+                        <li><strong>Plywood:</strong> {{ object.plywood.name }}</li>
+                        <li><strong>Room Dimension:</strong> {{ object.room_length }}m x {{ object.room_width }}m</li>
+                        <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
+                        <li><strong>Total Sheets:</strong> {{ object.total_sheets }}</li>
+                        <li><strong>Waste percentage:</strong> {{ object.plywood.waste_percentage }}%</li>
                         {% endif %}
                         {% if object.total_cost %}
-                            <li><strong>Price:</strong> ${{ object.total_cost }}</li>
+                        <li><strong>Total Price:</strong> ${{ object.total_cost }}</li>
                         {% endif %}
                         {% if object.calculation_date %}
-                            <li><strong>Calculation Date:</strong> {{ object.calculation_date }}</li>
+                        <li><strong>Calculation Date:</strong> {{ object.calculation_date }}</li>
                         {% endif %}
                     </ul>
-                {% endif %}
                 <p>This action cannot be undone.</p>
                 <form method="post">
                     {% csrf_token %}
