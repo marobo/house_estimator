@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import (
     Tile, TileCalculation,
     Plywood, PlywoodCalculation,
-    ElectricComponent, ElectricalCalculation
 )
 
 
@@ -28,15 +27,3 @@ class PlywoodAdmin(admin.ModelAdmin):
 class PlywoodCalculationAdmin(admin.ModelAdmin):
     list_display = ('plywood', 'total_sheets', 'total_cost')
     list_filter = ('plywood',)
-
-
-@admin.register(ElectricComponent)
-class ElectricComponentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'unit_price', 'unit')
-    search_fields = ('name',)
-
-
-@admin.register(ElectricalCalculation)
-class ElectricalCalculationAdmin(admin.ModelAdmin):
-    list_display = ('component', 'quantity', 'total_cost')
-    list_filter = ('component',)

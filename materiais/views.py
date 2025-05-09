@@ -2,12 +2,11 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .models import (
-    Tile, TileCalculation, Plywood, PlywoodCalculation,
-    ElectricComponent, ElectricalCalculation
+    Tile, TileCalculation, Plywood, PlywoodCalculation
 )
 from .forms import (
     TileForm, TileCalculationForm, PlywoodForm,
-    PlywoodCalculationForm, ElectricComponentForm, ElectricalCalculationForm
+    PlywoodCalculationForm
 )
 
 
@@ -143,72 +142,6 @@ class PlywoodCalculationDetailView(DetailView):
     model = PlywoodCalculation
     template_name = 'materiais/plywood_calculation_detail.html'
     context_object_name = 'calculation'
-
-
-class ElectricComponentListView(ListView):
-    model = ElectricComponent
-    template_name = 'materiais/electric_component_list.html'
-    context_object_name = 'components'
-
-
-class ElectricComponentCreateView(CreateView):
-    model = ElectricComponent
-    form_class = ElectricComponentForm
-    template_name = 'materiais/electric_component_form.html'
-    success_url = reverse_lazy('materiais:electric_component_list')
-
-
-class ElectricComponentDetailView(DetailView):
-    model = ElectricComponent
-    template_name = 'materiais/electric_component_detail.html'
-    context_object_name = 'component'
-
-
-class ElectricComponentUpdateView(UpdateView):
-    model = ElectricComponent
-    form_class = ElectricComponentForm
-    template_name = 'materiais/electric_component_form.html'
-    success_url = reverse_lazy('materiais:electric_component_list')
-
-
-class ElectricComponentDeleteView(DeleteView):
-    model = ElectricComponent
-    template_name = 'materiais/confirm_delete.html'
-    success_url = reverse_lazy('materiais:electric_component_list')
-    context_object_name = 'object'
-
-
-class ElectricalCalculationListView(ListView):
-    model = ElectricalCalculation
-    template_name = 'materiais/electrical_calculation_list.html'
-    context_object_name = 'calculations'
-
-
-class ElectricalCalculationCreateView(CreateView):
-    model = ElectricalCalculation
-    form_class = ElectricalCalculationForm
-    template_name = 'materiais/electrical_calculation_form.html'
-    success_url = reverse_lazy('materiais:electrical_calculation_list')
-
-
-class ElectricalCalculationDetailView(DetailView):
-    model = ElectricalCalculation
-    template_name = 'materiais/electrical_calculation_detail.html'
-    context_object_name = 'calculation'
-
-
-class ElectricalCalculationUpdateView(UpdateView):
-    model = ElectricalCalculation
-    form_class = ElectricalCalculationForm
-    template_name = 'materiais/electrical_calculation_form.html'
-    success_url = reverse_lazy('materiais:electrical_calculation_list')
-
-
-class ElectricalCalculationDeleteView(DeleteView):
-    model = ElectricalCalculation
-    template_name = 'materiais/confirm_delete.html'
-    success_url = reverse_lazy('materiais:electrical_calculation_list')
-    context_object_name = 'object'
 
 
 def home(request):
