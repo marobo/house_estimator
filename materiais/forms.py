@@ -1,22 +1,9 @@
 from django import forms
 from .models import (
-    Room, Tile, TileCalculation,
+    Tile, TileCalculation,
     Plywood, PlywoodCalculation,
     ElectricComponent, ElectricalCalculation
 )
-
-
-class RoomForm(forms.ModelForm):
-    class Meta:
-        model = Room
-        fields = ['name', 'length', 'width', 'quantity', 'room_type']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'length': forms.NumberInput(attrs={'class': 'form-control'}),
-            'width': forms.NumberInput(attrs={'class': 'form-control'}),
-            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
-            'room_type': forms.Select(attrs={'class': 'form-control'}),
-        }
 
 
 class TileForm(forms.ModelForm):
@@ -40,12 +27,14 @@ class TileCalculationForm(forms.ModelForm):
     class Meta:
         model = TileCalculation
         fields = [
-            'room', 'tile', 'total_boxes', 'total_pieces',
-            'total_cost', 'waste_percentage'
+            'tile', 'room_length', 'room_width', 'room_quantity',
+            'total_boxes', 'total_pieces', 'total_cost', 'waste_percentage'
         ]
         widgets = {
-            'room': forms.Select(attrs={'class': 'form-control'}),
             'tile': forms.Select(attrs={'class': 'form-control'}),
+            'room_length': forms.NumberInput(attrs={'class': 'form-control'}),
+            'room_width': forms.NumberInput(attrs={'class': 'form-control'}),
+            'room_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'total_boxes': forms.NumberInput(
                 attrs={'class': 'form-control', 'readonly': 'readonly'}
             ),
@@ -55,19 +44,66 @@ class TileCalculationForm(forms.ModelForm):
             'total_cost': forms.NumberInput(
                 attrs={'class': 'form-control', 'readonly': 'readonly'}
             ),
-            'waste_percentage': forms.NumberInput(attrs={'class': 'form-control'}),
+            'waste_percentage': forms.NumberInput(
+                attrs={'class': 'form-control', 'readonly': 'readonly'}
+            ),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        tile = cleaned_data.get('tile')
+        room_length = cleaned_data.get('room_length')
+        room_width = cleaned_data.get('room_width')
+        room_quantity = cleaned_data.get('room_quantity', 1)
+
+        if tile and room_length and room_width:
+            try:
+                result = tile.calculate_requirements(
+                    room_length, room_width, room_quantity
+                )
+                cleaned_data['total_boxes'] = result['total_boxes']
+                cleaned_data['total_pieces'] = result['total_pieces']
+                cleaned_data['total_cost'] = result['total_cost']
+                cleaned_data['waste_percentage'] = tile.waste_percentage
+            except (ValueError, TypeError) as e:
+                raise forms.ValidationError(
+                    "Error calculating requirements: " + str(e)
+                )
+        else:
+            if not tile:
+                self.add_error('tile', 'This field is required.')
+            if not room_length:
+                self.add_error('room_length', 'This field is required.')
+            if not room_width:
+                self.add_error('room_width', 'This field is required.')
+
+        return cleaned_data
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'room' in self.data and 'tile' in self.data:
-            room = Room.objects.get(pk=self.data['room'])
-            tile = Tile.objects.get(pk=self.data['tile'])
-            result = tile.calculate_requirements(room)
-            self.initial['total_boxes'] = result['total_boxes']
-            self.initial['total_pieces'] = result['total_pieces']
-            self.initial['total_cost'] = result['total_cost']
-            self.initial['waste_percentage'] = tile.waste_percentage
+        self.fields['total_boxes'].required = False
+        self.fields['total_pieces'].required = False
+        self.fields['total_cost'].required = False
+        self.fields['waste_percentage'].required = False
+
+        if (self.is_bound and 'tile' in self.data and 
+            'room_length' in self.data and 'room_width' in self.data):
+            try:
+                tile = Tile.objects.get(pk=self.data['tile'])
+                room_length = float(self.data['room_length'])
+                room_width = float(self.data['room_width'])
+                room_quantity = int(self.data.get('room_quantity', 1))
+
+                result = tile.calculate_requirements(
+                    room_length, room_width, room_quantity
+                )
+
+                self.initial['total_boxes'] = result['total_boxes']
+                self.initial['total_pieces'] = result['total_pieces']
+                self.initial['total_cost'] = result['total_cost']
+                self.initial['waste_percentage'] = tile.waste_percentage
+            except (ValueError, Tile.DoesNotExist):
+                pass
 
 
 class PlywoodForm(forms.ModelForm):
@@ -86,10 +122,15 @@ class PlywoodForm(forms.ModelForm):
 class PlywoodCalculationForm(forms.ModelForm):
     class Meta:
         model = PlywoodCalculation
-        fields = ['room', 'plywood', 'total_sheets', 'total_cost', 'waste_percentage']
+        fields = [
+            'plywood', 'room_length', 'room_width', 'room_quantity',
+            'total_sheets', 'total_cost', 'waste_percentage'
+        ]
         widgets = {
-            'room': forms.Select(attrs={'class': 'form-control'}),
             'plywood': forms.Select(attrs={'class': 'form-control'}),
+            'room_length': forms.NumberInput(attrs={'class': 'form-control'}),
+            'room_width': forms.NumberInput(attrs={'class': 'form-control'}),
+            'room_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'total_sheets': forms.NumberInput(
                 attrs={'class': 'form-control', 'readonly': 'readonly'}
             ),
@@ -101,10 +142,12 @@ class PlywoodCalculationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'room' in self.data and 'plywood' in self.data:
-            room = Room.objects.get(pk=self.data['room'])
+        if 'plywood' in self.data and 'room_length' in self.data and 'room_width' in self.data:
             plywood = Plywood.objects.get(pk=self.data['plywood'])
-            result = plywood.calculate_requirements(room)
+            room_length = float(self.data['room_length'])
+            room_width = float(self.data['room_width'])
+            room_quantity = int(self.data.get('room_quantity', 1))
+            result = plywood.calculate_requirements(room_length, room_width, room_quantity)
             self.initial['total_sheets'] = result['total_sheets']
             self.initial['total_cost'] = result['total_cost']
             self.initial['waste_percentage'] = plywood.waste_percentage
@@ -126,10 +169,15 @@ class ElectricComponentForm(forms.ModelForm):
 class ElectricalCalculationForm(forms.ModelForm):
     class Meta:
         model = ElectricalCalculation
-        fields = ['room', 'component', 'quantity', 'total_cost']
+        fields = [
+            'component', 'room_length', 'room_width', 'room_quantity',
+            'quantity', 'total_cost'
+        ]
         widgets = {
-            'room': forms.Select(attrs={'class': 'form-control'}),
             'component': forms.Select(attrs={'class': 'form-control'}),
+            'room_length': forms.NumberInput(attrs={'class': 'form-control'}),
+            'room_width': forms.NumberInput(attrs={'class': 'form-control'}),
+            'room_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(
                 attrs={'class': 'form-control', 'readonly': 'readonly'}
             ),
@@ -138,11 +186,52 @@ class ElectricalCalculationForm(forms.ModelForm):
             ),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        component = cleaned_data.get('component')
+        room_length = cleaned_data.get('room_length')
+        room_width = cleaned_data.get('room_width')
+        room_quantity = cleaned_data.get('room_quantity', 1)
+
+        if component and room_length and room_width:
+            try:
+                result = component.calculate_requirements(
+                    room_length, room_width, room_quantity
+                )
+                cleaned_data['quantity'] = result['quantity']
+                cleaned_data['total_cost'] = result['total_cost']
+            except (ValueError, TypeError) as e:
+                raise forms.ValidationError(
+                    "Error calculating requirements: " + str(e)
+                )
+        else:
+            if not component:
+                self.add_error('component', 'This field is required.')
+            if not room_length:
+                self.add_error('room_length', 'This field is required.')
+            if not room_width:
+                self.add_error('room_width', 'This field is required.')
+
+        return cleaned_data
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'room' in self.data and 'component' in self.data:
-            room = Room.objects.get(pk=self.data['room'])
-            component = ElectricComponent.objects.get(pk=self.data['component'])
-            result = component.calculate_requirements(room)
-            self.initial['quantity'] = result['quantity']
-            self.initial['total_cost'] = result['total_cost'] 
+        self.fields['quantity'].required = False
+        self.fields['total_cost'].required = False
+
+        if (self.is_bound and 'component' in self.data and 
+            'room_length' in self.data and 'room_width' in self.data):
+            try:
+                component = ElectricComponent.objects.get(pk=self.data['component'])
+                room_length = float(self.data['room_length'])
+                room_width = float(self.data['room_width'])
+                room_quantity = int(self.data.get('room_quantity', 1))
+
+                result = component.calculate_requirements(
+                    room_length, room_width, room_quantity
+                )
+
+                self.initial['quantity'] = result['quantity']
+                self.initial['total_cost'] = result['total_cost']
+            except (ValueError, ElectricComponent.DoesNotExist):
+                pass
