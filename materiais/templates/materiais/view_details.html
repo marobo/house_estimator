@@ -17,11 +17,13 @@
                     {% endif %}
 
                     {% if object.price_per_box %}
+                    <li><strong>Area:</strong> {{ object.area_per_piece }} m²</li>
                     <li><strong>Pieces per box:</strong> {{ object.pieces_per_box }}</li>
                     <li><strong>Price per box:</strong> ${{ object.price_per_box }}</li>
                     {% endif %}
 
                     {% if object.price_per_sheet %}
+                    <li><strong>Area:</strong> {{ object.area_per_sheet }} m²</li>
                     <li><strong>Price per sheet:</strong> ${{ object.price_per_sheet }}</li>
                     {% endif %}
 
@@ -30,12 +32,14 @@
                     <li><strong>Room Dimension:</strong> {{ object.room_length }}m x {{ object.room_width }}m</li>
                     <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
                     <li><strong>Total Pieces:</strong> {{ object.total_pieces }}</li>
+                    <li><strong>Area per Piece:</strong> {{ object.tile.area_per_piece }}m²</li>
                     <li><strong>Total Boxes:</strong> {{ object.total_boxes }}</li>
                     <li><strong>Waste percentage:</strong> {{ object.tile.waste_percentage }}%</li>
                     {% endif %}
 
                     {% if object.plywood.name %}
                     <li><strong>Plywood:</strong> {{ object.plywood.name }}</li>
+                    <li><strong>Area per Sheet (m²):</strong> {{ object.plywood.area_per_sheet }}</li>
                     <li><strong>Room Dimension:</strong> {{ object.room_length }}m x {{ object.room_width }}m</li>
                     <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
                     <li><strong>Total Sheets:</strong> {{ object.total_sheets }}</li>
