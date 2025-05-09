@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Plywood Calculation Detail - House Estimator{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Calculation Detail</h2>
+            </div>
+            <div class="card-body">
+                <ul>
+                    {% if object.name %}
+                    <li><strong>Name:</strong> {{ object.name }}</li>
+                    <li><strong>Material Dimension:</strong> {{ object.length }}m x {{ object.width }}m</li>
+                    {% endif %}
+
+                    {% if object.price_per_box %}
+                    <li><strong>Pieces per box:</strong> {{ object.pieces_per_box }}</li>
+                    <li><strong>Price per box:</strong> ${{ object.price_per_box }}</li>
+                    {% endif %}
+
+                    {% if object.price_per_sheet %}
+                    <li><strong>Price per sheet:</strong> ${{ object.price_per_sheet }}</li>
+                    {% endif %}
+
+                    {% if object.tile.name %}
+                    <li><strong>Tile or PVC:</strong> {{ object.tile.name }}</li>
+                    <li><strong>Room Dimension:</strong> {{ object.room_length }}m x {{ object.room_width }}m</li>
+                    <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
+                    <li><strong>Total Pieces:</strong> {{ object.total_pieces }}</li>
+                    <li><strong>Total Boxes:</strong> {{ object.total_boxes }}</li>
+                    <li><strong>Waste percentage:</strong> {{ object.tile.waste_percentage }}%</li>
+                    {% endif %}
+
+                    {% if object.plywood.name %}
+                    <li><strong>Plywood:</strong> {{ object.plywood.name }}</li>
+                    <li><strong>Room Dimension:</strong> {{ object.room_length }}m x {{ object.room_width }}m</li>
+                    <li><strong>Room Quantity:</strong> {{ object.room_quantity }}</li>
+                    <li><strong>Total Sheets:</strong> {{ object.total_sheets }}</li>
+                    <li><strong>Waste percentage:</strong> {{ object.plywood.waste_percentage }}%</li>
+                    {% endif %}
+                    {% if object.total_cost %}
+                    <li><strong>Total Price:</strong> ${{ object.total_cost }}</li>
+                    {% endif %}
+                    {% if object.calculation_date %}
+                    <li><strong>Calculation Date:</strong> {{ object.calculation_date }}</li>
+                    {% endif %}
+                </ul>
+                <a href="{% url 'materiais:home' %}" class="btn btn-secondary">Back to Calculations</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

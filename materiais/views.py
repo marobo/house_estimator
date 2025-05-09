@@ -40,8 +40,8 @@ class TileDeleteView(LoginRequiredMixin, DeleteView):
 
 class TileDetailView(DetailView):
     model = Tile
-    template_name = 'materiais/tile_detail.html'
-    context_object_name = 'tile'
+    template_name = 'materiais/view_details.html'
+    context_object_name = 'object'
 
 
 class TileCalculationListView(ListView):
@@ -74,8 +74,8 @@ class TileCalculationDeleteView(LoginRequiredMixin, DeleteView):
 
 class TileCalculationDetailView(DetailView):
     model = TileCalculation
-    template_name = 'materiais/tile_calculation_detail.html'
-    context_object_name = 'calculation'
+    template_name = 'materiais/view_details.html'
+    context_object_name = 'object'
 
 
 class PlywoodListView(ListView):
@@ -107,8 +107,8 @@ class PlywoodDeleteView(LoginRequiredMixin, DeleteView):
 
 class PlywoodDetailView(DetailView):
     model = Plywood
-    template_name = 'materiais/plywood_detail.html'
-    context_object_name = 'plywood'
+    template_name = 'materiais/view_details.html'
+    context_object_name = 'object'
 
 
 class PlywoodCalculationListView(ListView):
@@ -141,8 +141,8 @@ class PlywoodCalculationDeleteView(LoginRequiredMixin, DeleteView):
 
 class PlywoodCalculationDetailView(DetailView):
     model = PlywoodCalculation
-    template_name = 'materiais/plywood_calculation_detail.html'
-    context_object_name = 'calculation'
+    template_name = 'materiais/view_details.html'
+    context_object_name = 'object'
 
 
 def home(request):
