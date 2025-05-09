@@ -69,6 +69,7 @@ coverage.xml
 # Logs and databases
 *.log
 *.sqlite
+*.sqlite3
 *.db
 
 # Local development settings

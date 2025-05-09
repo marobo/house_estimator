@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Electric Component Detail - House Estimator{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Electric Component Detail</h2>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><strong>Component:</strong> {{ component.name }}</li>
+                    <li><strong>Unit Price:</strong> ${{ component.unit_price }}</li>
+                    <li><strong>Unit:</strong> {{ component.unit }}</li>
+                    <li><strong>Component Type:</strong> {{ component.component_type }}</li>
+                    <li><strong>Default Quantity:</strong> {{ component.default_quantity }}</li>
+                </ul>
+                <a href="{% url 'materiais:electric_component_list' %}" class="btn btn-secondary">Back to Electric Components</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

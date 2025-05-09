@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Tiles - House Estimator{% endblock %}
+{% block title %}Tiles and PVC - House Estimator{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Tiles</h1>
-    <a href="{% url 'materiais:tile_create' %}" class="btn btn-primary">Add New Tile</a>
+    <h1>Tiles and PVC</h1>
+    <a href="{% url 'materiais:tile_create' %}" class="btn btn-primary">Add New Tile or PVC</a>
 </div>
 
 <div class="table-responsive">
@@ -17,6 +17,7 @@
                 <th>Pieces per Box</th>
                 <th>Price per Box</th>
                 <th>Area per Piece (m²)</th>
+                <th>Waste %</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,15 +29,16 @@
                 <td>{{ tile.pieces_per_box }}</td>
                 <td>${{ tile.price_per_box }}</td>
                 <td>{{ tile.area_per_piece|floatformat:4 }}</td>
+                <td>{{ tile.waste_percentage }}%</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-info">View</a>
-                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    <a href="{% url 'materiais:tile_detail' tile.pk %}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</a>
+                    <a href="{% url 'materiais:tile_edit' tile.pk %}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                    <a href="{% url 'materiais:tile_delete' tile.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="text-center">No tiles found. Add your first tile!</td>
+                <td colspan="6" class="text-center">No tiles or PVC found. Add your first tile or PVC!</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -44,7 +46,7 @@
 </div>
 
 <div class="mt-4">
-    <h2>Tile Calculations</h2>
-    <a href="{% url 'materiais:tile_calculation_create' %}" class="btn btn-success">Calculate Tile Requirements</a>
+    <h2>Tile or PVC Calculations</h2>
+    <a href="{% url 'materiais:tile_calculation_create' %}" class="btn btn-success">Calculate Tile or PVC Requirements</a>
 </div>
 {% endblock %} 

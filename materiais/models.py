@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 import math
 
 
@@ -9,20 +9,25 @@ class Tile(models.Model):
     width = models.FloatField(help_text="Width in centimeters", validators=[MinValueValidator(0)])
     pieces_per_box = models.IntegerField(validators=[MinValueValidator(1)])
     price_per_box = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
-    waste_percentage = models.FloatField(default=10, help_text="Waste percentage for cutting and breakage")
+    waste_percentage = models.FloatField(
+        default=10,
+        help_text="Waste percentage for cutting and breakage (0-100%)",
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
 
     def __str__(self):
         return f"{self.name} ({self.length}x{self.width}cm)"
 
     @property
     def area_per_piece(self):
-        return (self.length * self.width) / 10000  # Convert to square meters
+        return (self.length * self.width) / 10000  # Convert to square meters (1 m2=(100 cm)×(100 cm)=10,000 cm2)
 
-    def calculate_requirements(self, room_length, room_width, room_quantity=1):
+    def calculate_requirements(self, room_length, room_width, room_quantity=1, waste_percentage=None):
         room_area = room_length * room_width * room_quantity
         tile_area = self.area_per_piece
-        total_pieces = math.ceil(room_area / tile_area * (1 + self.waste_percentage / 100))
-        total_boxes = math.ceil(total_pieces / self.pieces_per_box)
+        waste_percentage = waste_percentage if waste_percentage is not None else self.waste_percentage
+        total_pieces = math.ceil(room_area / tile_area * (1 + waste_percentage / 100))  # math.ceil() rounds up to the nearest integer
+        total_boxes = math.ceil(total_pieces / self.pieces_per_box)  # math.ceil() rounds up to the nearest integer
         total_cost = total_boxes * self.price_per_box
         return {
             'total_pieces': total_pieces,
@@ -39,11 +44,14 @@ class TileCalculation(models.Model):
     total_boxes = models.FloatField()
     total_pieces = models.IntegerField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    waste_percentage = models.FloatField()
+    waste_percentage = models.FloatField(
+        help_text="Waste percentage for cutting and breakage (0-100%)",
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
     calculation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Tile Calculation for {self.tile.name} ({self.room_length}x{self.room_width}m)"
+        return f"{self.tile.name} - {self.room_length}x{self.room_width}m - {self.calculation_date}"
 
 
 class Plywood(models.Model):
@@ -57,13 +65,14 @@ class Plywood(models.Model):
         return f"{self.name} ({self.length}x{self.width}m)"
 
     @property
-    def area(self):
-        return self.length * self.width
+    def area_per_sheet(self):
+        return self.length * self.width  # Area in square meters
 
-    def calculate_requirements(self, room_length, room_width, room_quantity=1):
+    def calculate_requirements(self, room_length, room_width, room_quantity=1, waste_percentage=None):
         room_area = room_length * room_width * room_quantity
-        plywood_area = self.area
-        total_sheets = math.ceil(room_area / plywood_area * (1 + self.waste_percentage / 100))
+        plywood_area = self.area_per_sheet
+        waste_percentage = waste_percentage if waste_percentage is not None else self.waste_percentage
+        total_sheets = math.ceil(room_area / plywood_area * (1 + waste_percentage / 100))
         total_cost = total_sheets * self.price_per_sheet
         return {
             'total_sheets': total_sheets,
@@ -78,7 +87,10 @@ class PlywoodCalculation(models.Model):
     room_quantity = models.IntegerField(default=1)
     total_sheets = models.IntegerField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    waste_percentage = models.FloatField()
+    waste_percentage = models.FloatField(
+        help_text="Waste percentage for cutting and breakage (0-100%)",
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
     calculation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
