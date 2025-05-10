@@ -1,10 +1,16 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 import math
+from django.contrib.auth.models import User
 
 
 class Tile(models.Model):
+    TILE_TYPE_CHOICES = [
+        ('tile', 'Tile'),
+        ('pvc', 'PVC'),
+    ]
     name = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=TILE_TYPE_CHOICES, default='tile')
     length = models.FloatField(help_text="Length in centimeters", validators=[MinValueValidator(0)])
     width = models.FloatField(help_text="Width in centimeters", validators=[MinValueValidator(0)])
     pieces_per_box = models.IntegerField(validators=[MinValueValidator(1)])
@@ -37,6 +43,7 @@ class Tile(models.Model):
 
 
 class TileCalculation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     tile = models.ForeignKey(Tile, on_delete=models.CASCADE)
     room_length = models.FloatField(help_text="Room length in meters")
     room_width = models.FloatField(help_text="Room width in meters")
@@ -81,6 +88,7 @@ class Plywood(models.Model):
 
 
 class PlywoodCalculation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     plywood = models.ForeignKey(Plywood, on_delete=models.CASCADE)
     room_length = models.FloatField(help_text="Room length in meters")
     room_width = models.FloatField(help_text="Room width in meters")

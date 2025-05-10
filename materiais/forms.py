@@ -9,11 +9,12 @@ class TileForm(forms.ModelForm):
     class Meta:
         model = Tile
         fields = [
-            'name', 'length', 'width', 'pieces_per_box',
+            'name', 'type', 'length', 'width', 'pieces_per_box',
             'price_per_box', 'waste_percentage'
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'type': forms.Select(attrs={'class': 'form-control'}),
             'length': forms.NumberInput(attrs={'class': 'form-control'}),
             'width': forms.NumberInput(attrs={'class': 'form-control'}),
             'pieces_per_box': forms.NumberInput(attrs={'class': 'form-control'}),

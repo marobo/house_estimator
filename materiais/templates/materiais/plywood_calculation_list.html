@@ -26,6 +26,7 @@
             </tr>
         </thead>
         <tbody>
+        {% if calculations %}
             {% for calculation in calculations %}
             <tr>
                 <td>{{ calculation.plywood.name }}</td>
@@ -41,11 +42,24 @@
                     <a href="{% url 'materiais:plywood_calculation_delete' calculation.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
                 </td>
             </tr>
-            {% empty %}
+            {% endfor %}
+            <tr>
+                <td colspan="5" class="pt-5">
+                    <h3>Summary</h3>
+                    <p>This is a summary of all the calculations made.</p>
+                    <i class="fas fa-box"></i>
+                    <strong>Total Sheets of Plywood:</strong> {{ total_plywood_sheet }}<br>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <strong>Total Cost of Plywood:</strong> ${{ total_plywood_cost }}<br>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <strong>All Cost:</strong> ${{ total_cost }}
+                </td>
+            </tr>
+        {% else %}
             <tr>
                 <td colspan="8" class="text-center">No calculations found. Create your first calculation!</td>
             </tr>
-            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 </div>
