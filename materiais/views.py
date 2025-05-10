@@ -105,20 +105,6 @@ class PlywoodListView(ListView):
     template_name = 'materiais/plywood_list.html'
     context_object_name = 'plywoods'
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        if self.request.user.is_authenticated:
-            return qs.filter(user=self.request.user)
-        return qs.none()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        plywoods = context['plywoods']
-        context['total_plywood_sheet'] = sum(c.total_sheets for c in plywoods)
-        context['total_plywood_cost'] = sum(c.total_cost for c in plywoods)
-        context['total_cost'] = sum(calc.total_cost for calc in plywoods)
-        return context
-
 
 class PlywoodCreateView(CreateView):
     model = Plywood
@@ -152,6 +138,20 @@ class PlywoodCalculationListView(ListView):
     template_name = 'materiais/plywood_calculation_list.html'
     context_object_name = 'calculations'
     ordering = ['-calculation_date']
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_authenticated:
+            return qs.filter(user=self.request.user)
+        return qs.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        calculations = context['calculations']
+        context['total_plywood_sheet'] = sum(c.total_sheets for c in calculations)
+        context['total_plywood_cost'] = sum(c.total_cost for c in calculations)
+        context['total_cost'] = sum(calc.total_cost for calc in calculations)
+        return context
 
 
 class PlywoodCalculationCreateView(LoginRequiredMixin, CreateView):
