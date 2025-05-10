@@ -1,0 +1,26 @@
+<form method="post" action="{% url 'create_account' %}">
+    {% csrf_token %}
+    <h1>Create your new account</h1>
+    <div>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {% if form.username.errors %}
+            <p>This username already exist</p>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+    </div>
+    <div>
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+    </div>
+    <div>
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+    </div>
+    <button type="submit">Create new account</button>
+</form>

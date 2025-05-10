@@ -17,7 +17,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'materiais',
+    'user_profile',
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.mailBackend"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
