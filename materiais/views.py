@@ -160,6 +160,10 @@ class PlywoodCalculationCreateView(LoginRequiredMixin, CreateView):
     template_name = 'materiais/plywood_calculation_form.html'
     success_url = reverse_lazy('materiais:plywood_calculation_list')
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class PlywoodCalculationUpdateView(LoginRequiredMixin, UpdateView):
     model = PlywoodCalculation
