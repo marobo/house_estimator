@@ -6,11 +6,43 @@
     <title>{% block title %}House Estimator{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}House Estimator{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Estimate your house materials easily!{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ STATIC_URL }}/static/img/preview.webp{% endblock %}">
+    <style>
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.55);;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .logo .fa-home {
+        font-size: 2.5rem;
+    }
+    .logo span {
+        flex-direction: column;
+        line-height: 1;
+    }
+    .logo-line1, .logo-line2 {
+        letter-spacing: 1px;
+    }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'materiais:home' %}">House Estimator</a>
+            <a class="navbar-brand logo" href="{% url 'materiais:home' %}">
+                <i class="fas fa-home"></i>
+                <span>
+                    <span class="logo-line1">HOUSE</span><br>
+                    <span class="logo-line2">ESTIMATOR</span>
+                </span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
