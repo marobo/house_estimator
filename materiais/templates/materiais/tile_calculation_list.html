@@ -27,6 +27,7 @@
             </tr>
         </thead>
         <tbody>
+        {% if calculations %}
             {% for calculation in calculations %}
             <tr>
                 <td>{{ calculation.tile.name }}</td>
@@ -43,11 +44,28 @@
                     <a href="{% url 'materiais:tile_calculation_delete' calculation.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
                 </td>
             </tr>
-            {% empty %}
+            {% endfor %}
+            <tr>
+                <td colspan="9" class="pt-5">
+                    <h3>Summary</h3>
+                    <p>This is a summary of all the calculations made.</p>
+                    <i class="fas fa-box"></i>
+                    <strong>Total Boxes of Tile:</strong> {{ total_tile_boxes }}<br>
+                    <i class="fas fa-box"></i>
+                    <strong>Total Boxes of PVC:</strong> {{ total_pvc_boxes }}<br>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <strong>Total Cost of Tile:</strong> ${{ total_tile_cost }}<br>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <strong>Total Cost of PVC:</strong> ${{ total_pvc_cost }}<br>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <strong>All Cost:</strong> ${{ total_cost }}
+                </td>
+            </tr>
+        {% else %}
             <tr>
                 <td colspan="9" class="text-center">No calculations found. Create your first calculation!</td>
             </tr>
-            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 </div>

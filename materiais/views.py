@@ -50,12 +50,34 @@ class TileCalculationListView(ListView):
     context_object_name = 'calculations'
     ordering = ['-calculation_date']
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_authenticated:
+            return qs.filter(user=self.request.user)
+        return qs.none()
 
-class TileCalculationCreateView(CreateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        calculations = context['calculations']
+        tile_calcs = [c for c in calculations if c.tile.type == 'tile']
+        pvc_calcs = [c for c in calculations if c.tile.type == 'pvc']
+        context['total_tile_boxes'] = sum(c.total_boxes for c in tile_calcs)
+        context['total_tile_cost'] = sum(c.total_cost for c in tile_calcs)
+        context['total_pvc_boxes'] = sum(c.total_boxes for c in pvc_calcs)
+        context['total_pvc_cost'] = sum(c.total_cost for c in pvc_calcs)
+        context['total_cost'] = sum(calc.total_cost for calc in calculations)
+        return context
+
+
+class TileCalculationCreateView(LoginRequiredMixin, CreateView):
     model = TileCalculation
     form_class = TileCalculationForm
     template_name = 'materiais/tile_calculation_form.html'
     success_url = reverse_lazy('materiais:tile_calculation_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class TileCalculationUpdateView(LoginRequiredMixin, UpdateView):
@@ -82,6 +104,20 @@ class PlywoodListView(ListView):
     model = Plywood
     template_name = 'materiais/plywood_list.html'
     context_object_name = 'plywoods'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_authenticated:
+            return qs.filter(user=self.request.user)
+        return qs.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plywoods = context['plywoods']
+        context['total_plywood_sheet'] = sum(c.total_sheets for c in plywoods)
+        context['total_plywood_cost'] = sum(c.total_cost for c in plywoods)
+        context['total_cost'] = sum(calc.total_cost for calc in plywoods)
+        return context
 
 
 class PlywoodCreateView(CreateView):
@@ -118,7 +154,7 @@ class PlywoodCalculationListView(ListView):
     ordering = ['-calculation_date']
 
 
-class PlywoodCalculationCreateView(CreateView):
+class PlywoodCalculationCreateView(LoginRequiredMixin, CreateView):
     model = PlywoodCalculation
     form_class = PlywoodCalculationForm
     template_name = 'materiais/plywood_calculation_form.html'

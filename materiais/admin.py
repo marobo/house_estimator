@@ -7,7 +7,7 @@ from .models import (
 
 @admin.register(Tile)
 class TileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'length', 'width', 'pieces_per_box', 'price_per_box')
+    list_display = ('name', 'type', 'length', 'width', 'pieces_per_box', 'price_per_box', 'waste_percentage')
     search_fields = ('name',)
 
 
@@ -19,7 +19,7 @@ class TileCalculationAdmin(admin.ModelAdmin):
 
 @admin.register(Plywood)
 class PlywoodAdmin(admin.ModelAdmin):
-    list_display = ('name', 'length', 'width', 'price_per_sheet')
+    list_display = ('name', 'length', 'width', 'price_per_sheet', 'waste_percentage')
     search_fields = ('name',)
 
 
